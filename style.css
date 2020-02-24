@@ -1,0 +1,62 @@
+.breadth {
+  max-width: 24rem;
+}
+
+ /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+       #map {
+        height: 100%;
+        width: 100%;
+        background-color: grey;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #radius {
+        border-radius: 50%;
+      }
+
+      /* * {
+        outline: none;
+      }
+      
+      button {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: 10px;
+      }
+      
+      #wrap {
+        width: 960px;
+      }
+      
+      #wrap:before,
+      #wrap:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      
+      #filter {
+        width: 40%;
+        float: left;
+      }
+      
+      #content {
+        float: right;
+        width: 59%;
+        margin-left: 1%;
+        font-size: 12px;
+        font-family: sans-serif;
+      }
+      
+      .filter-list {
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        padding: 10px;
+      } */
