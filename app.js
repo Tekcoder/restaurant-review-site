@@ -3,9 +3,8 @@ let restaurantList = [
     restaurantName: "Bronco",
 
     address: "39 Rue des Petites Écuries, 75010 Paris",
-    lat: -32,
-
-    long: 150,
+    lat: 6.5489996,
+    long: 3.3688805999999997,
 
     ratings: [
       {
@@ -25,9 +24,8 @@ let restaurantList = [
     restaurantName: "Bar beach",
 
     address: "39 Rue des Petites Écuries, 75010 Paris",
-    lat: -32,
-
-    long: 150,
+    lat: 6.5482276,
+    long: 3.3615805999999997,
 
     ratings: [
       {
@@ -48,9 +46,8 @@ let restaurantList = [
     restaurantName: "Babalou",
 
     address: "4 Rue Lamarck, 75018 Paris",
-    lat: -30.5,
-
-    long: 152,
+    lat: 6.5462976,
+    long: 3.3665805999999997,
 
     ratings: [
       {
@@ -71,9 +68,9 @@ let restaurantList = [
     restaurantName: "Dominos",
 
     address: "33, Palm Avenue, Victoria",
-    lat: -29.5,
+    lat: 6.5489976,
 
-    long: 151,
+    long: 3.3615805999999997,
 
     ratings: [
       {
@@ -92,45 +89,47 @@ let restaurantList = [
 ];
 
 $(document).ready(function() {
-  function card(restaurant) {
-    $("#restaurant-card").append(`<div class="col-md-8">
-    <div class="card border-info mb-2 breadth">
-   <div class="card-header alert alert-info" id="name">${restaurant.restaurantName}</div>
-   <div class="card-body text-info">
-     <h5 class="card-title" id="address">${restaurant.address}</h5>
-     <p class="card-text" id="rating">${restaurant.ratings[0].stars}</p>  
-   </div>
- </div>
-</div>
-<div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
-  }
+  var map = initMap();
 
   for (let i = 0; i < restaurantList.length; i++) {
     card(restaurantList[i]);
+    addMarker(
+      map,
+      restaurantList[i].restaurantName,
+      restaurantList[i].lat,
+      restaurantList[i].long
+    );
   }
 });
 
+function card(restaurant) {
+  $("#restaurant-card").append(`<div class="col-md-8">
+    <div class="card border-info mb-2 breadth">
+  <div class="card-header alert alert-info" id="name">${restaurant.restaurantName}</div>
+  <div class="card-body text-info">
+    <h5 class="card-title" id="address">${restaurant.address}</h5>
+    <p class="card-text" id="rating">${restaurant.ratings[0].stars}</p>  
+  </div>
+  </div>
+  </div>
+  <div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
+}
+
 function initMap() {
-  // The location of myPosition
-  var myPosition = { lat: 6.548287999999, lng: 3.363564299999 };
-  // The map, centered at User's Position
+  var myPosition = {
+    lat: 6.5482976,
+    lng: 3.3635805999999997
+  };
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 16,
     center: myPosition
   });
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({ position: myPosition, map: map });
+
+  return map;
 }
 
-for (let i = 0; restaurantList.length; i++) {
-  var restaurantLatitude = restaurantList[i].lat;
-  var restaurantListLongitude = restaurantList[i].long;
-
-  var restaurantListLocation = { restaurantLatitude, restaurantListLongitude };
-
-  var marker = new google.maps.Marker({
-    position: restaurantListLocation,
-    map: map
-  });
-  initMap(marker);
+function addMarker(map, name, latitude, longitude) {
+  // The location of myPosition
+  var myPosition = { lat: latitude, lng: longitude };
+  var marker = new google.maps.Marker({ position: myPosition, map: map });
 }
