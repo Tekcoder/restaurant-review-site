@@ -115,17 +115,23 @@ function card(restaurant) {
   <div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
 }
 
+//  var map;
 function initMap() {
-  var myPosition = {
-    lat: 6.5482976,
-    lng: 3.3635805999999997
-  };
-  var map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 16,
-    center: myPosition
-  });
-
-  return map;
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: pos.lat, lng: pos.lng },
+        zoom: 16
+      });
+      addMarker(map, "user Position", pos.lat, pos.lng);
+      return map;
+    });
+  }
 }
 
 function addMarker(map, name, latitude, longitude) {
