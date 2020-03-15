@@ -89,17 +89,17 @@ let restaurantList = [
 ];
 
 $(document).ready(function() {
-  var map = initMap();
-
-  for (let i = 0; i < restaurantList.length; i++) {
-    card(restaurantList[i]);
-    addMarker(
-      map,
-      restaurantList[i].restaurantName,
-      restaurantList[i].lat,
-      restaurantList[i].long
-    );
-  }
+  initMap(function(map) {
+    for (let i = 0; i < restaurantList.length; i++) {
+      card(restaurantList[i]);
+      addMarker(
+        map,
+        restaurantList[i].restaurantName,
+        restaurantList[i].lat,
+        restaurantList[i].long
+      );
+    }
+  });
 });
 
 function card(restaurant) {
@@ -115,8 +115,7 @@ function card(restaurant) {
   <div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
 }
 
-//  var map;
-function initMap() {
+function initMap(callback) {
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -126,10 +125,10 @@ function initMap() {
       };
       map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: pos.lat, lng: pos.lng },
-        zoom: 16
+        zoom: 15
       });
       addMarker(map, "user Position", pos.lat, pos.lng);
-      return map;
+      callback(map);
     });
   }
 }
