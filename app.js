@@ -100,6 +100,7 @@ $(document).ready(function() {
       );
     }
   });
+  ('#rating').rating();
 });
 
 function card(restaurant) {
@@ -127,7 +128,7 @@ function initMap(callback) {
         center: { lat: pos.lat, lng: pos.lng },
         zoom: 15
       });
-      addMarker(map, "user Position", pos.lat, pos.lng);
+      addMarker(map, "Restaurant Name", pos.lat, pos.lng);
       callback(map);
     });
   }
@@ -135,6 +136,20 @@ function initMap(callback) {
 
 function addMarker(map, name, latitude, longitude) {
   // The location of myPosition
+  var iconBase = "https://maps.google.com/mapfiles/kml/pushpin/";
+
   var myPosition = { lat: latitude, lng: longitude };
-  var marker = new google.maps.Marker({ position: myPosition, map: map });
+  var marker = new google.maps.Marker({
+    position: myPosition,
+    map: map,
+    icon: iconBase + "ylw-pushpin.png"
+  });
+
+  var infoWindow = new google.maps.InfoWindow({
+    content: "<h3>My Location</h3>"
+  });
+
+  marker.addListener("click", () => {
+    infoWindow.open(map, marker);
+  });
 }
