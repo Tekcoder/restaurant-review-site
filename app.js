@@ -120,45 +120,12 @@ function initMap(callback) {
       });
       addMarker(map, "Restaurant Name", pos.lat, pos.lng);
       callback(map);
-      // We add a DOM event here to show an alert if the DIV containing the
-      // map is clicked.
-      google.maps.event.addDomListener(mapDiv, "click", function() {
-        $("#modal-id").append(`<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add New Restaurant</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Name:</label>
-                  <input type="text" class="form-control" id="restaurant-name">
-                </div>
-                <div class="form-group">
-                  <label for="restaurant-address" class="col-form-label">Address:</label>
-                  <textarea class="form-control" id="restaurant-address"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="restaurant-star" class="col-form-label">Star:</label>
-                  <textarea class="form-control" id="restaurant-star"></textarea>
-                </div>
-              <div class="form-group">
-                <label for="restaurant-comments" class="col-form-label">Comments:</label>
-                <textarea class="form-control" id="restaurant-comments"></textarea>
-              </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>`);
+      google.maps.event.addDomListener(mapDiv, "click", function(e) {
+        addRestaurant(e.lat, e.lng)
+        //Toggles the modal (show/hide)
+        $("#addRestaurantModal").modal('toggle');
+        //Calls a function when modal is hidden (to clean it)
+        $("#addRestaurantModal").on('hidden.bs.modal', cleanRestaurantModal)
       });
     });
   }
@@ -182,4 +149,30 @@ function addMarker(map, name, latitude, longitude) {
   marker.addListener("click", () => {
     infoWindow.open(map, marker);
   });
+}
+
+//Adds a new restaurant to the list
+
+
+function addRestaurant(lat, lng) {
+  //1) Save all restaurant info
+  var restaurantObject = {
+    restaurantName : $("#add-restaurant-name").val(),
+    address : $("#add-restaurant-address").val(),
+    ratings: [{stars: $("#add-restaurant-stars").val(), comment: $("#add-restaurant-comment").val() }]
+  };
+  //2) Save restaurant in JSON
+  restaurantList.push(restaurantObject)
+  addMarker(map, restaurantObject.restaurantName, lat, lng)
+  card(restaurantList, restaurantList.length)
+  //3) Close modal
+  $("#addRestaurantModal").modal('toggle')
+}
+
+//Cleans addRestaurantModal so that it always shows empty
+function cleanRestaurantModal() {
+  $("#add-restaurant-name").val('');
+  $("#add-restaurant-address").val('');
+  $("#add-restaurant-star").val('');
+  $("#add-restaurant-comments").val('');
 }
