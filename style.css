@@ -17,46 +17,10 @@
       }
 
       #radius {
-        border-radius: 50%;
+        /* margin-top: 2.5rem; */
+        max-width: 100%
       }
 
-      /* * {
-        outline: none;
-      }
-      
-      button {
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        padding: 10px;
-      }
-      
-      #wrap {
-        width: 960px;
-      }
-      
-      #wrap:before,
-      #wrap:after {
-        content: "";
-        display: table;
-        clear: both;
-      }
-      
-      #filter {
-        width: 40%;
-        float: left;
-      }
-      
-      #content {
-        float: right;
-        width: 59%;
-        margin-left: 1%;
-        font-size: 12px;
-        font-family: sans-serif;
-      }
-      
-      .filter-list {
-        border: 1px solid #ccc;
-        margin-bottom: 5px;
-        padding: 10px;
-      } */
+      #close-button:hover{
+        background:red;
+        }

@@ -92,7 +92,50 @@
         </div>
       </div>
     </div>
-  </div>
+    <div class="modal fade" id="addReviewsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add New Comment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="display-stars" class="col-form-label">Star:</label>
+                <input type="text" class="form-control" id="display-stars">
+              </div>
+              <div class="form-group">
+                <label for="display-comments" class="col-form-label">Comment:</label>
+                <textarea class="form-control" id="display-comments"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="add-new-star">Star:</label>
+                <select class="form-control" id="add-new-star" name="star">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                <br>
+              </div>
+              <div class="form-group">
+                <label for="add-new-comment" class="col-form-label">Comments:</label>
+                <textarea class="form-control" id="add-new-comment"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="close-button" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="addNewReview()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap"></script>

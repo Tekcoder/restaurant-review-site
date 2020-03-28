@@ -65,6 +65,11 @@ let restaurantList = [
   }
 ];
 
+let clickedPosition = {
+  lat: 0,
+  long: 0
+}
+
 $(document).ready(function() {
   initMap(function(map) {
     for (let i = 0; i < restaurantList.length; i++) {
@@ -91,7 +96,7 @@ function card(restaurant, id) {
   $("#restaurant-card").append(`
   <div class="col-md-8">
     <div class="card border-info mb-2 breadth">
-      <div class="card-header alert alert-info" id="name_${id}">${restaurant.restaurantName}</div>
+      <div class="card-header alert alert-info" id="name_${id}"><a href="" onclick="commentModal()">${restaurant.restaurantName}</a></div>
     <div class="card-body text-info">
       <h5 class="card-title" id="address_${id}">${restaurant.address}</h5>
       <input class="rating" data-readonly="true" id="rating_${id}" value="${average}" />  
@@ -118,32 +123,37 @@ function initMap(callback) {
         center: { lat: pos.lat, lng: pos.lng },
         zoom: 16
       });
-      addMarker(map, "Restaurant Name", pos.lat, pos.lng);
+
+      addMarker(map, "Your Location", pos.lat, pos.lng);
       callback(map);
-      google.maps.event.addDomListener(mapDiv, "click", function(e) {
-        addRestaurant(e.lat, e.lng)
-        //Toggles the modal (show/hide)
-        $("#addRestaurantModal").modal('toggle');
+      map.addListener("click", function(e) {
+        //Save location for later
+        clickedPosition.lat = e.latLng.lat()
+        clickedPosition.long = e.latLng.lng()
+        $("#addRestaurantModal").modal('show');
         //Calls a function when modal is hidden (to clean it)
         $("#addRestaurantModal").on('hidden.bs.modal', cleanRestaurantModal)
       });
     });
   }
+  else {
+    alert('Geolocation is not supported by your browser.');
+  }
 }
 
 function addMarker(map, name, latitude, longitude) {
   // The location of myPosition
-  var iconBase = "https://maps.google.com/mapfiles/kml/pushpin/";
+  var restaurantsIcon = "https://maps.google.com/mapfiles/kml/pushpin/";
 
-  var myPosition = { lat: latitude, lng: longitude };
+  var restaurantLocation = { lat: latitude, lng: longitude };
   var marker = new google.maps.Marker({
-    position: myPosition,
+    position: restaurantLocation,
     map: map,
-    icon: iconBase + "ylw-pushpin.png"
+    icon: restaurantsIcon + "ylw-pushpin.png"
   });
 
   var infoWindow = new google.maps.InfoWindow({
-    content: "<h3>My Location</h3>"
+    content: `<h3>${name}</h3>`
   });
 
   marker.addListener("click", () => {
@@ -151,22 +161,20 @@ function addMarker(map, name, latitude, longitude) {
   });
 }
 
-//Adds a new restaurant to the list
-
-
-function addRestaurant(lat, lng) {
+//Adds a new restaurant to the list, uses location saved in map listener
+function addRestaurant() {
   //1) Save all restaurant info
   var restaurantObject = {
     restaurantName : $("#add-restaurant-name").val(),
     address : $("#add-restaurant-address").val(),
-    ratings: [{stars: $("#add-restaurant-stars").val(), comment: $("#add-restaurant-comment").val() }]
+    ratings: [{stars: $("#add-restaurant-star").val(), comment: $("#add-restaurant-comments").val() }]
   };
   //2) Save restaurant in JSON
   restaurantList.push(restaurantObject)
-  addMarker(map, restaurantObject.restaurantName, lat, lng)
-  card(restaurantList, restaurantList.length)
+  addMarker(map, restaurantObject.restaurantName, clickedPosition.lat, clickedPosition.long)
+  card(restaurantObject, restaurantList.length)
   //3) Close modal
-  $("#addRestaurantModal").modal('toggle')
+  $("#addRestaurantModal").modal('hide')
 }
 
 //Cleans addRestaurantModal so that it always shows empty
@@ -175,4 +183,39 @@ function cleanRestaurantModal() {
   $("#add-restaurant-address").val('');
   $("#add-restaurant-star").val('');
   $("#add-restaurant-comments").val('');
+  clickedPosition.lat = 0
+  clickedPosition.long = 0
+}
+
+
+//Cleans addNewReview modal so that it always shows empty
+function cleanCommentModal() {
+$("#add-new-star").val('');
+$("#add-new-comment").val('');
+}
+//This function displays the modal with the existing reviews
+function commentModal() {
+  $("#addReviewsModal").modal('show');
+  //Calls a function when modal is hidden (to clean it)
+  $("#addReviewsModal").on('hidden.bs.modal', cleanCommentModal)
+  }
+
+function addNewReview() {
+  //Display existing stars and comments
+  var existingStarsAndReviews = {
+    stars: restaurantList.ratings[i].stars,
+    comments: restaurantList.ratings[i].comment
+  }
+
+$("#display-stars").append(existingStarsAndReviews.stars);
+
+$("#display-comments").append(existingStarsAndReviews.comments)
+  //Add new star and comment
+var newRestaurantReview = {
+  ratings: [{stars: $("#add-new-star").val(), comment: $("#add-new-comment").val() }]
+}
+//Update the stars and comments for the restaurant
+restaurantList.push(newRestaurantReview)
+//3) Close modal
+  $("#addReviewsModal").modal('hide')
 }
