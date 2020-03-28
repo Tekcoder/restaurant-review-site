@@ -68,7 +68,7 @@ let restaurantList = [
 let clickedPosition = {
   lat: 0,
   long: 0
-}
+};
 
 $(document).ready(function() {
   initMap(function(map) {
@@ -128,16 +128,15 @@ function initMap(callback) {
       callback(map);
       map.addListener("click", function(e) {
         //Save location for later
-        clickedPosition.lat = e.latLng.lat()
-        clickedPosition.long = e.latLng.lng()
-        $("#addRestaurantModal").modal('show');
+        clickedPosition.lat = e.latLng.lat();
+        clickedPosition.long = e.latLng.lng();
+        $("#addRestaurantModal").modal("show");
         //Calls a function when modal is hidden (to clean it)
-        $("#addRestaurantModal").on('hidden.bs.modal', cleanRestaurantModal)
+        $("#addRestaurantModal").on("hidden.bs.modal", cleanRestaurantModal);
       });
     });
-  }
-  else {
-    alert('Geolocation is not supported by your browser.');
+  } else {
+    alert("Geolocation is not supported by your browser.");
   }
 }
 
@@ -165,57 +164,68 @@ function addMarker(map, name, latitude, longitude) {
 function addRestaurant() {
   //1) Save all restaurant info
   var restaurantObject = {
-    restaurantName : $("#add-restaurant-name").val(),
-    address : $("#add-restaurant-address").val(),
-    ratings: [{stars: $("#add-restaurant-star").val(), comment: $("#add-restaurant-comments").val() }]
+    restaurantName: $("#add-restaurant-name").val(),
+    address: $("#add-restaurant-address").val(),
+    ratings: [
+      {
+        stars: $("#add-restaurant-star").val(),
+        comment: $("#add-restaurant-comments").val()
+      }
+    ]
   };
   //2) Save restaurant in JSON
-  restaurantList.push(restaurantObject)
-  addMarker(map, restaurantObject.restaurantName, clickedPosition.lat, clickedPosition.long)
-  card(restaurantObject, restaurantList.length)
+  restaurantList.push(restaurantObject);
+  addMarker(
+    map,
+    restaurantObject.restaurantName,
+    clickedPosition.lat,
+    clickedPosition.long
+  );
+  card(restaurantObject, restaurantList.length);
   //3) Close modal
-  $("#addRestaurantModal").modal('hide')
+  $("#addRestaurantModal").modal("hide");
 }
 
 //Cleans addRestaurantModal so that it always shows empty
 function cleanRestaurantModal() {
-  $("#add-restaurant-name").val('');
-  $("#add-restaurant-address").val('');
-  $("#add-restaurant-star").val('');
-  $("#add-restaurant-comments").val('');
-  clickedPosition.lat = 0
-  clickedPosition.long = 0
+  $("#add-restaurant-name").val("");
+  $("#add-restaurant-address").val("");
+  $("#add-restaurant-star").val("");
+  $("#add-restaurant-comments").val("");
+  clickedPosition.lat = 0;
+  clickedPosition.long = 0;
 }
-
 
 //Cleans addNewReview modal so that it always shows empty
 function cleanCommentModal() {
-$("#add-new-star").val('');
-$("#add-new-comment").val('');
+  $("#add-new-star").val("");
+  $("#add-new-comment").val("");
 }
 //This function displays the modal with the existing reviews
 function commentModal() {
-  $("#addReviewsModal").modal('show');
+  $("#addReviewsModal").modal("show");
   //Calls a function when modal is hidden (to clean it)
-  $("#addReviewsModal").on('hidden.bs.modal', cleanCommentModal)
-  }
+  $("#addReviewsModal").on("hidden.bs.modal", cleanCommentModal);
+}
 
 function addNewReview() {
   //Display existing stars and comments
   var existingStarsAndReviews = {
     stars: restaurantList.ratings[i].stars,
     comments: restaurantList.ratings[i].comment
-  }
+  };
 
-$("#display-stars").append(existingStarsAndReviews.stars);
+  $("#display-stars").append(`<h3>${existingStarsAndReviews.stars}</h3>`);
 
-$("#display-comments").append(existingStarsAndReviews.comments)
+  $("#display-comments").append(`<h3>${existingStarsAndReviews.comments}</h3>`);
   //Add new star and comment
-var newRestaurantReview = {
-  ratings: [{stars: $("#add-new-star").val(), comment: $("#add-new-comment").val() }]
-}
-//Update the stars and comments for the restaurant
-restaurantList.push(newRestaurantReview)
-//3) Close modal
-  $("#addReviewsModal").modal('hide')
+  var newRestaurantReview = {
+    ratings: [
+      { stars: $("#add-new-star").val(), comment: $("#add-new-comment").val() }
+    ]
+  };
+  //Update the stars and comments for the restaurant
+  restaurantList.push(newRestaurantReview);
+  //3) Close modal
+  $("#addReviewsModal").modal("hide");
 }
