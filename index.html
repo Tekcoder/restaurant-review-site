@@ -41,6 +41,7 @@
     <div class="row">
       <div class="col-sm-8 col-xs-6">
         <div id="map"></div>
+        <div id="street-view"></div>
       </div>
       <div class="col-sm-4 col-xs-6">
         <div class="row p-1 mb-1 ml-0 bg-info text-white breadth">
@@ -97,21 +98,24 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add New Comment</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Street View & Existing Reviews</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
+            <div class="form-group">
+                <label for="street-view">Street View:</label>
+                <button type="button" class="btn btn-primary" id="street-view" onclick="viewStreet()">Show Street view</button>
+              </div>
+              <hr/>
+            <label for="display-stars">Stars:
+            <div id="display-stars"></div>
+            <label for="display-comments">Comments:</label>
+            <div id="display-comments"></div>
+            <hr>
+            <h5>Add New Review</h5>
             <form>
-              <div class="form-group">
-                <label for="display-stars" class="col-form-label">Star:</label>
-                <input type="text" class="form-control" id="display-stars">
-              </div>
-              <div class="form-group">
-                <label for="display-comments" class="col-form-label">Comment:</label>
-                <textarea class="form-control" id="display-comments"></textarea>
-              </div>
               <div class="form-group">
                 <label for="add-new-star">Star:</label>
                 <select class="form-control" id="add-new-star" name="star">
@@ -132,6 +136,8 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" id="close-button" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="addNewReview()">Submit</button>
+            
+
           </div>
         </div>
       </div>

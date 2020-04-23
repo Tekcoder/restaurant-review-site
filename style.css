@@ -24,3 +24,7 @@
       #close-button:hover{
         background:red;
         }
+
+        #street-view {
+        height: 50%;
+      }

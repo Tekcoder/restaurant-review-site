@@ -70,6 +70,8 @@ let clickedPosition = {
   long: 0
 };
 
+let currentRestaurantID = 0;
+
 $(document).ready(function() {
   initMap(function(map) {
     for (let i = 0; i < restaurantList.length; i++) {
@@ -85,18 +87,12 @@ $(document).ready(function() {
 });
 
 function card(restaurant, id) {
-  let average = 0;
-
-  for (let i = 0; i < restaurant.ratings.length; i++) {
-    average += restaurant.ratings[i].stars;
-  }
-
-  average /= restaurant.ratings.length;
+  let average = restaurantAverage(restaurant.ratings)
 
   $("#restaurant-card").append(`
   <div class="col-md-8">
     <div class="card border-info mb-2 breadth">
-      <div class="card-header alert alert-info" id="name_${id}"><a href="#" onclick="commentModal()">${restaurant.restaurantName}</a></div>
+      <div class="card-header alert alert-info" id="name_${id}"><a href="#" onclick="commentModal(${id})">${restaurant.restaurantName}</a></div>
     <div class="card-body text-info">
       <h5 class="card-title" id="address_${id}">${restaurant.address}</h5>
       <input class="rating" data-readonly="true" id="rating_${id}" value="${average}" />  
@@ -106,6 +102,31 @@ function card(restaurant, id) {
   <div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
 
   $("#rating_" + id).rating({});
+}
+
+//Calculates the average rating of the restaurant
+function restaurantAverage(ratings) {
+  let average = 0;
+
+  for (let i = 0; i < ratings.length; i++) {
+    average += ratings[i].stars;
+  }
+
+  average /= ratings.length;
+
+  return average
+}
+
+function getComments(ratings) {
+  let comments = '<ol>'
+
+  for (let i = 0; i < ratings.length; i++) {
+    comments += `<li>${ratings[i].comment}</li>`
+  }
+
+  comments += '</ol>'
+
+  return comments
 }
 
 function initMap(callback) {
@@ -194,31 +215,31 @@ function cleanRestaurantModal() {
   $("#add-restaurant-comments").val("");
   clickedPosition.lat = 0;
   clickedPosition.long = 0;
+  currentRestaurantID = 0;
 }
 
 //Cleans addNewReview modal so that it always shows empty
 function cleanCommentModal() {
-  $("#add-new-star").val("");
-  $("#add-new-comment").val("");
+  $("#display-stars").val("");
+  $("#display-comments").val("");
 }
 //This function displays the modal with the existing reviews
-function commentModal() {
+function commentModal(id) {
+  //Save restaurant ID for later
+  currentRestaurantID = id
+  let average = restaurantAverage(restaurantList[currentRestaurantID].ratings)
+  let comments = getComments(restaurantList[currentRestaurantID].ratings)
+
+  $("#display-stars").html(`${average}`);
+
+  $("#display-comments").html(`${comments}`);
+  //Add new star and comment
   $("#addReviewsModal").modal("show");
   //Calls a function when modal is hidden (to clean it)
   $("#addReviewsModal").on("hidden.bs.modal", cleanCommentModal);
 }
 
 function addNewReview() {
-  //Display existing stars and comments
-  var existingStarsAndReviews = {
-    stars: restaurantList.ratings[i].stars,
-    comments: restaurantList.ratings[i].comment
-  };
-
-  $("#display-stars").append(`<h3>${existingStarsAndReviews.stars}</h3>`);
-
-  $("#display-comments").append(`<h3>${existingStarsAndReviews.comments}</h3>`);
-  //Add new star and comment
   var newRestaurantReview = {
     ratings: [
       { stars: $("#add-new-star").val(), comment: $("#add-new-comment").val() }
@@ -228,4 +249,26 @@ function addNewReview() {
   restaurantList.push(newRestaurantReview);
   //3) Close modal
   $("#addReviewsModal").modal("hide");
+
+  restaurantList[currentRestaurantID].ratings.push({
+    stars: parseInt($("#add-new-star").val()),
+    comment: $("#add-new-comment").val()
+  })
+
+  $("#addReviewsModal").modal("hide");
+}
+
+var panorama;
+      function callStreet() {
+        panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('street-view'),
+            {
+              position: { lat: clickedPosition.lat, lng: clickedPosition.long },
+              pov: {heading: 165, pitch: 0},
+              zoom: 1
+            });
+      }
+// To display the Street View
+function viewStreet() {
+  callStreet()
 }
