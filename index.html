@@ -32,19 +32,37 @@
   <!-- End External Dependencies -->
 
   <!-- Page CSS-->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
   <title>Restaurants Review Site</title>
 </head>
-
 <body>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row bg-info">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <h2 class="text-light">Roheem's Restaurant Review Site</h2>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row site-background">
       <div class="col-sm-8 col-xs-6">
         <div id="map"></div>
-        <div id="street-view"></div>
       </div>
       <div class="col-sm-4 col-xs-6">
-        <div class="row p-1 mb-1 ml-0 bg-info text-white breadth">
+        <div class="row">
+          <div class="col-12 bg-dark">
+            <label class="text-light bg-dark" for="ratings-filter">Filter by ratings:</label>
+<select id="ratings-filter" name="ratings-filter" >
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+</select></div>
+        </div>
+        <div class="row p-1 mb-1 ml-0 bg-info text-white breadth" id="restaurant-row">
           <div class="row" id="restaurant-card"></div>
         </div>
       </div>
@@ -98,19 +116,15 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Street View & Existing Reviews</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Existing Reviews</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-group">
-                <label for="street-view">Street View:</label>
-                <button type="button" class="btn btn-primary" id="street-view" onclick="viewStreet()">Show Street view</button>
-              </div>
-              <hr/>
             <label for="display-stars">Stars:
-            <div id="display-stars"></div>
+            <div id="display-stars" class="rating" data-readonly="true"></div>
             <label for="display-comments">Comments:</label>
             <div id="display-comments"></div>
             <hr>
@@ -136,18 +150,34 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" id="close-button" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="addNewReview()">Submit</button>
-            
-
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="streetViewModal" tabindex="-1" role="dialog" aria-labelledby="streetViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="streetViewModalLabel">Restaurant Street View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="street-view"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="street-close-button" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap"></script>
+   <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&libraries=places"></script> -->
   <!-- Page JS -->
   <script src="app.js"></script>
   <script src="map.js"></script>
 </body>
-
 </html>

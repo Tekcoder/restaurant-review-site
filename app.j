@@ -2,8 +2,8 @@ let restaurantList = [
   {
     restaurantName: "Bronco",
     address: "39 Rue des Petites Écuries, 75010 Paris",
-    lat: 6.5489900,
-    long: 3.3688805123456,
+    lat: 6.5489996,
+    long: 3.3688805,
     ratings: [
       {
         stars: 4,
@@ -99,11 +99,11 @@ function card(restaurant, id) {
     <div class="card-body text-info">
       <h5 class="card-title" id="address_${id}">${restaurant.address}</h5>
       <input class="rating" data-readonly="true" id="rating_${id}" value="${average}" />  
-      <button class="btn btn-info" onClick="callStreet(${restaurant.lat}, ${restaurant.long})">Show Street View</button>
+      <button class="button button-info" onClick="callStreet(${restaurant.lat}, ${restaurant.long})">Show Street View</button>
     </div>
   </div>
   </div>
-  <div class="col-md-4"><img src="/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
+  <div class="col-md-4"><img src="jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
 
   $("#rating_" + id).rating({});
 }
@@ -174,7 +174,6 @@ function addMarker(map, name, latitude, longitude) {
     position: restaurantLocation,
     map: map,
     icon: restaurantsIcon + "ylw-pushpin.png",
-    animation: google.maps.Animation.DROP
   });
 
   var infoWindow = new google.maps.InfoWindow({
@@ -266,7 +265,7 @@ function addNewReview() {
 }
 
 function callStreet(lat, long) {
-  $("#streetViewModal").modal("show");
+  //$("#streetViewModal").modal("show");
 
   panorama = new google.maps.StreetViewPanorama(
     document.getElementById("street-view"),
@@ -276,18 +275,3 @@ function callStreet(lat, long) {
   );
   map.setStreetView(panorama);
 }
-
-//This function filters the ratings and updates the card component that is displayed on the map
-// I'm yet to complete the logic required for this function
-// function filteredStar(ratings){
-  $("#ratings-filter").change(function () {
-      var selectedValue = $("#ratings-filter option:selected").val();
-      
-      // for (let i = 0; i < ratings.length; i++) {
-      //   if (selectedValue === restaurantList[i].ratings[i].stars) {
-      //     alert(`The selected rating is  ${selectedValue}`);
-      //   }
-      // }
-      alert(`The selected rating is  ${selectedValue}`);
-  });
-// }

@@ -1,0 +1,68 @@
+.breadth {
+  max-width: 24rem;
+}
+
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+  /*float: left;*/
+  height: 70%;
+  width: 70%;
+  background-color: grey;
+  margin: 4rem 1rem 4rem 5rem;
+}
+
+#restaurant-row {
+  margin: 4rem 0 4rem 1rem;
+}
+
+.site-background {
+  background-image: url(../images/dan-gold-E6HjQaB7UEA-unsplash.jpg);
+  width: 100%;
+  background-repeat:no-repeat;
+  background-size:100%;
+}
+street-view {
+  /* float: right; */
+  height: 100%;
+  width: 50%;
+  background-color: grey;
+}
+
+#streetViewModal .modal-content {
+  height: 10%;
+  width: 100%;
+}
+
+#streetViewModal .modal-body {
+  height: 80%;
+  width: 100%;
+  min-width: 768px;
+  min-height: 768px;
+}
+
+#streetViewModal .modal-footer {
+  height: 10%;
+  width: 100%;
+}
+
+#streetViewModal #street-close-button {
+  background: red;
+}
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#radius {
+  /* margin-top: 2.5rem; */
+  max-width: 100%;
+}
+
+#close-button:hover {
+  background: red;
+}
+
