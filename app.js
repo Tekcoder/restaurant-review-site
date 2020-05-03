@@ -95,7 +95,7 @@ function card(restaurant, id) {
   $("#restaurant-card").append(`
   <div class="col-md-8">
     <div class="card border-info mb-2 breadth">
-      <div class="card-header alert alert-info" id="name_${id}"><a href="#" onclick="commentModal(${id})">${restaurant.restaurantName}</a></div>
+      <div class="card-header text text-info" id="name_${id}"><a href="#" onclick="commentModal(${id})">${restaurant.restaurantName}</a></div>
     <div class="card-body text-info">
       <h5 class="card-title" id="address_${id}">${restaurant.address}</h5>
       <input class="rating" data-readonly="true" id="rating_${id}" value="${average}" />  
@@ -234,10 +234,10 @@ function cleanCommentModal() {
 function commentModal(id) {
   //Save restaurant ID for later
   currentRestaurantID = id;
-  let average = restaurantAverage(restaurantList[currentRestaurantID].ratings);
+  let individualAverage = restaurantAverage(restaurantList[currentRestaurantID].ratings);
   let comments = getComments(restaurantList[currentRestaurantID].ratings);
 
-  $("#display-stars").html(`${average}`);
+  $("#display-stars").html(`${individualAverage}`);
 
   $("#display-comments").html(`${comments}`);
   //Add new star and comment
@@ -279,15 +279,21 @@ function callStreet(lat, long) {
 
 //This function filters the ratings and updates the card component that is displayed on the map
 // I'm yet to complete the logic required for this function
-// function filteredStar(ratings){
+ function filteredStar(ratings, id){
   $("#ratings-filter").change(function () {
       var selectedValue = $("#ratings-filter option:selected").val();
       
-      // for (let i = 0; i < ratings.length; i++) {
-      //   if (selectedValue === restaurantList[i].ratings[i].stars) {
-      //     alert(`The selected rating is  ${selectedValue}`);
-      //   }
-      // }
-      alert(`The selected rating is  ${selectedValue}`);
+      let averageRestaurantRating = [];
+
+      for (let i = 0; i < ratings.length; i++) {
+        if (selectedValue === individualAverage) {
+          averageRestaurantRating.push(average)
+          //updates the card component
+          card(averageRestaurantRating, id)
+        } else {
+          return averageRestaurantRating;
+        }
+      }
+      // alert(`The selected rating is  ${selectedValue}`);
   });
-// }
+}
