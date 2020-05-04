@@ -6,7 +6,7 @@ let restaurantList = [
     long: 3.3688805123456,
     ratings: [
       {
-        stars: 4,
+        stars: 5,
         comment: "Great! But not many veggie options.",
       },
       {
@@ -27,7 +27,7 @@ let restaurantList = [
         comment: "Great! But not many veggie options.",
       },
       {
-        stars: 5,
+        stars: 4,
         comment: "My favorite restaurant!",
       },
     ],
@@ -40,7 +40,7 @@ let restaurantList = [
     long: 3.3665805999999997,
     ratings: [
       {
-        stars: 5,
+        stars: 3,
         comment: "Tiny pizzeria next to Sacre Coeur!",
       },
       {
@@ -52,7 +52,7 @@ let restaurantList = [
   },
   {
     restaurantName: "Dominos",
-    address: "33, Palm Avenue, Victoria",
+    address: "33, Palm Avenue, Victoria Island",
     lat: 6.5489976,
     long: 3.3615805999999997,
     ratings: [
@@ -154,6 +154,17 @@ function initMap(callback) {
         center: { lat: pos.lat, lng: pos.lng },
         zoom: 16,
       });
+
+      Location = $("#search-location").val();
+      var request = {
+        location: Location,
+        type: ['restaurant']
+      };
+    
+
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, getRestaurant);
+
 
       addMarker(map, "Your Location", pos.lat, pos.lng);
       callback(map);
@@ -283,27 +294,39 @@ function callStreet(lat, long) {
   map.setStreetView(panorama);
 }
 
-//This function filters the ratings and updates the card component that is displayed on the map
-// I'm yet to complete the logic required for this function
-  $("#ratings-filter").change(function (ratings, restaurant) {
+
+  $("#ratings-filter").change(function () {
       var selectedValue = $("#ratings-filter").val();
-      
-      let averagePerRestaurant = 0;
 
-     for (let i = 0; i < ratings.length; i++) {
-    averagePerRestaurant += ratings[i].stars;
-     }
-
-      averagePerRestaurant /= ratings.length;
-
+      for (let i = 0; i < restaurantList.length; i++) {
+        let averagePerRestaurant = restaurantAverage(restaurantList[i].ratings);
         if (selectedValue <= averagePerRestaurant) {
-          restaurant.show = true;
-          
-          for (let i = 0; i < restaurant.length; i++) {
-            card(restaurant, i)
-          }
+          restaurantList[i].show = true;
         } else {
-          restaurant.show = false;
-          card(null, null)
+          restaurantList[i].show = false;
         }
+      } 
+
+      $("#restaurant-card").html("")
+      for (let i = 0; i < restaurantList.length; i++) {
+        card(restaurantList[i], i)
+       }
+        
   });
+  function getRestaurant(results, status) {
+    var restaurantLocation = { lat: latitude, lng: longitude };
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        addMarker(map, results[i], restaurantLocation.lat, restaurantLocation.lng);
+        card(results[i], i)
+      }
+    }
+  }
+
+  function autocompleteRestaurant() {
+   var location = $("#search-location").val();
+   var autocomplete = new google.maps.places.Autocomplete(location)
+   google.maps.event.addListener(autocomplete, "place_changed", function () {
+     var place = autocomplete.getPlace();
+   })
+  }

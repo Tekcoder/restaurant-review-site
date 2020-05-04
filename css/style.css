@@ -13,7 +13,8 @@
 }
 
 #restaurant-row {
-  margin: 4rem 0 4rem 1rem;
+  margin: 2rem 0 0rem 0rem;
+  position: relative;
 }
 
 .site-background {
@@ -22,33 +23,11 @@
   background-repeat:no-repeat;
   background-size:100%;
 }
-street-view {
-  /* float: right; */
-  height: 100%;
-  width: 50%;
-  background-color: grey;
+#street-view {
+  height: 780px;
+  width: 480px;
 }
 
-#streetViewModal .modal-content {
-  height: 10%;
-  width: 100%;
-}
-
-#streetViewModal .modal-body {
-  height: 80%;
-  width: 100%;
-  min-width: 768px;
-  min-height: 768px;
-}
-
-#streetViewModal .modal-footer {
-  height: 10%;
-  width: 100%;
-}
-
-#streetViewModal #street-close-button {
-  background: red;
-}
 /* Optional: Makes the sample page fill the window. */
 html,
 body {

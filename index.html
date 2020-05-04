@@ -47,9 +47,10 @@
   </div>
   <div class="container-fluid site-background">
     <div class="row">
-      <div class="col-12 bg-dark">
+      <div class="col-12 bg-dark" onsubmit="getRestaurant()">
         <label class="text-light bg-dark" for="search-location">Search for Restaurants:</label>
         <input class="text-dark bg-light" type="search" name="search-location" id="search-location" placeholder="filter by restaurants">
+        <input class="text-dark bg-light" type="submit" name="submit" value="submit">
       </div>
       <div class="col-sm-8 col-xs-6">
         <div id="map"></div>
@@ -163,7 +164,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="streetViewModalLabel">Restaurant Street View</h5>
+          <h5 class="modal-title text-info" id="streetViewModalLabel">Restaurant Street View</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -179,9 +180,8 @@
   </div>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap"></script>
-   <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&libraries=places"></script> -->
+   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&libraries=places&callback=autocompleteRestaurant"></script>
   <!-- Page JS -->
   <script src="app.js"></script>
-  <script src="map.js"></script>
 </body>
 </html>
