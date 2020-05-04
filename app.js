@@ -14,6 +14,7 @@ let restaurantList = [
         comment: "My favorite restaurant!",
       },
     ],
+    show: true
   },
   {
     restaurantName: "Bar beach",
@@ -30,6 +31,7 @@ let restaurantList = [
         comment: "My favorite restaurant!",
       },
     ],
+    show: true
   },
   {
     restaurantName: "Babalou",
@@ -46,6 +48,7 @@ let restaurantList = [
         comment: "Meh, it was fine.",
       },
     ],
+    show: true
   },
   {
     restaurantName: "Dominos",
@@ -62,6 +65,7 @@ let restaurantList = [
         comment: "Will come again",
       },
     ],
+    show: true
   },
 ];
 
@@ -90,6 +94,7 @@ $(document).ready(function () {
 });
 
 function card(restaurant, id) {
+  if (restaurant.show == true) {
   let average = restaurantAverage(restaurant.ratings);
 
   $("#restaurant-card").append(`
@@ -106,6 +111,7 @@ function card(restaurant, id) {
   <div class="col-md-4"><img src="/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
 
   $("#rating_" + id).rating({});
+}
 }
 
 //Calculates the average rating of the restaurant
@@ -279,21 +285,25 @@ function callStreet(lat, long) {
 
 //This function filters the ratings and updates the card component that is displayed on the map
 // I'm yet to complete the logic required for this function
- function filteredStar(ratings, id){
-  $("#ratings-filter").change(function () {
-      var selectedValue = $("#ratings-filter option:selected").val();
+  $("#ratings-filter").change(function (ratings, restaurant) {
+      var selectedValue = $("#ratings-filter").val();
       
-      let averageRestaurantRating = [];
+      let averagePerRestaurant = 0;
 
-      for (let i = 0; i < ratings.length; i++) {
-        if (selectedValue === individualAverage) {
-          averageRestaurantRating.push(average)
-          //updates the card component
-          card(averageRestaurantRating, id)
+     for (let i = 0; i < ratings.length; i++) {
+    averagePerRestaurant += ratings[i].stars;
+     }
+
+      averagePerRestaurant /= ratings.length;
+
+        if (selectedValue <= averagePerRestaurant) {
+          restaurant.show = true;
+          
+          for (let i = 0; i < restaurant.length; i++) {
+            card(restaurant, i)
+          }
         } else {
-          return averageRestaurantRating;
+          restaurant.show = false;
+          card(null, null)
         }
-      }
-      // alert(`The selected rating is  ${selectedValue}`);
   });
-}
