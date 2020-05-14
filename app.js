@@ -154,17 +154,6 @@ function initMap(callback) {
         center: { lat: pos.lat, lng: pos.lng },
         zoom: 16,
       });
-
-      
-      Location = $("#search-location").val();
-      var request = {
-        location: Location,
-        radius: '2000',
-        type: ['restaurant']
-      };
-    
-
-      service = new google.maps.places.PlacesService(map);
       
       addMarker(map, "Your Location", pos.lat, pos.lng);
       callback(map);
@@ -182,15 +171,15 @@ function initMap(callback) {
   }
 }
 
-function addMarker(map, name, latitude, longitude) {
-  // The location of myPosition
+function addMarker(map, name, latitude, longitude, restaurantsIcon) {
+  // The location of User
   var restaurantsIcon = "https://maps.google.com/mapfiles/kml/pushpin/";
 
   var restaurantLocation = { lat: latitude, lng: longitude };
   var marker = new google.maps.Marker({
     position: restaurantLocation,
     map: map,
-    icon: restaurantsIcon + "ylw-pushpin.png",
+    icon: restaurantsIcon + "ltblu-pushpin.png",
     animation: google.maps.Animation.DROP
   });
 
@@ -313,91 +302,50 @@ function callStreet(lat, long) {
        }
         
   });
-  function getRestaurant(results, status) {
-    var restaurantLocation = { lat: latitude, lng: longitude };
+
+  function autocompleteRestaurant() {
+
+    var placesRestaurant =  'http://maps.google.com/mapfiles/kml/pal2/icon43.png'
+
+    let restaurantSearch =  $("#search-location").val()
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    var pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
+    var request = {
+      location: { lat: pos.lat, lng: pos.lng },
+      radius: '500',
+      type: ['restaurant'],
+      query: restaurantSearch
+    };
+    //console.log(request)
+    service = new google.maps.places.PlacesService(map);
+  service.textSearch(request, callback);
+  }
+  )
+
+  function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
-        addMarker(map, results[i], restaurantLocation.lat, restaurantLocation.lng);
-        card(results[i], i)
+        var place = results[i];
+        console.log(place)
+        var restaurantResult = {
+          restaurantName: place.name,
+          address: place.formatted_address,
+          ratings: [
+            {
+              stars: place.rating,
+            }
+          ],
+          show: true
+        };
+
+        restaurantList.push(restaurantResult);
+        addMarker(map, place.name, place.geometry.location.lat(), place.geometry.location.lng(), placesRestaurant);
+        card(restaurantResult, restaurantList.length)
       }
     }
   }
-
-  function autocompleteRestaurant() {
-   var location = $("#search-location").val();
-   var autocomplete = new google.maps.places.Autocomplete(location)
-   google.maps.event.addListener(autocomplete, "place_changed", function () {
-     var place = autocomplete.getPlace();
-   })
   }
-
-  // function getJsonData(){
-  //   let data = null;
-  //   var xhttp = new XMLHttpRequest();
-  //   xhttp.onreadystatechange = function() {
-  //     if (this.readyState == 4 && this.status == 200) {
-  //       data = JSON.parse(xhttp.responseText)
-  //     }
-  //   }
-  //   xhttp.open("GET", "restaurantList", false);
-  //   xhttp.send();
-  //   return data
-  // }
-  
-  // async function getRestaurants(env){
-  //   const data = getJsonData()
-  //   let restaurants = new Array()
-  //   for (let restaurant of data){
-  //     restaurants.push(new Restaurant(
-  //       restaurant.reviews,
-  //       restaurant.loc
-  //     ))
-  //   }
-    
-  //   let request = {
-  //     location: env.userLoc,
-  //     radius: '2000',
-  //     type: ['restaurant']
-  //   };
-  //   let service = new google.maps.places.PlacesService(env.map);
-  
-  //   function nearbySearchSync(query) {
-  //     return new Promise((resolve, reject) => {
-  //       service.nearbySearch(query,(successResponse) => {
-  //         resolve(successResponse);
-  //       });
-  //     });
-  //   }
-  
-  //   function callback(results, status) {}
-  
-  //   try {
-  //     let results = await nearbySearchSync(request, callback);
-  //     for (let i = 0; i < results.length; i++) {
-  //       let picture = null
-  //       try {
-  //         picture = results[i].photos[0].getUrl()
-  //       } catch(error){
-  //         picture = null
-  //       }
-  //       //pushing a new instance of the class restaurant
-  //       //(so a new restaurant) into the list of restaurants 
-  //       //that we have
-  //       restaurants.push(new Restaurant(
-  //         results[i].name,
-  //         [{
-  //           rating: results[i].rating, // average rating supplied by google
-  //           comment: "" //no comment supplied by google
-  //         }],
-  //         {
-  //           lat: results[i].geometry.location.lat(),
-  //           lng: results[i].geometry.location.lng()
-  //         },
-  //         picture //last but no least, the image displayed in our popup
-  //       ))
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   return restaurants
-  // }

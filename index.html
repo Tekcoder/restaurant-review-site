@@ -47,10 +47,10 @@
   </div>
   <div class="container-fluid site-background">
     <div class="row">
-      <div class="col-12 bg-dark" onsubmit="getRestaurant()">
+      <div class="col-12 bg-dark">
         <label class="text-light bg-dark" for="search-location">Search for Restaurants:</label>
         <input class="text-dark bg-light" type="search" name="search-location" id="search-location" placeholder="filter by restaurants">
-        <input class="text-dark bg-light" type="submit" name="submit" value="submit">
+        <input class="text-dark bg-light" type="submit" name="submit" value="submit" onclick="autocompleteRestaurant()">
       </div>
       <div class="col-sm-8 col-xs-6">
         <div id="map"></div>
@@ -179,8 +179,7 @@
     </div>
   </div>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap"></script>
-   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&libraries=places&callback=autocompleteRestaurant"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap&libraries=places"></script>
   <!-- Page JS -->
   <script src="app.js"></script>
 </body>
