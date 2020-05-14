@@ -155,17 +155,17 @@ function initMap(callback) {
         zoom: 16,
       });
 
+      
       Location = $("#search-location").val();
       var request = {
         location: Location,
+        radius: '2000',
         type: ['restaurant']
       };
     
 
       service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, getRestaurant);
-
-
+      
       addMarker(map, "Your Location", pos.lat, pos.lng);
       callback(map);
       map.addListener("click", function (e) {
@@ -330,3 +330,74 @@ function callStreet(lat, long) {
      var place = autocomplete.getPlace();
    })
   }
+
+  // function getJsonData(){
+  //   let data = null;
+  //   var xhttp = new XMLHttpRequest();
+  //   xhttp.onreadystatechange = function() {
+  //     if (this.readyState == 4 && this.status == 200) {
+  //       data = JSON.parse(xhttp.responseText)
+  //     }
+  //   }
+  //   xhttp.open("GET", "restaurantList", false);
+  //   xhttp.send();
+  //   return data
+  // }
+  
+  // async function getRestaurants(env){
+  //   const data = getJsonData()
+  //   let restaurants = new Array()
+  //   for (let restaurant of data){
+  //     restaurants.push(new Restaurant(
+  //       restaurant.reviews,
+  //       restaurant.loc
+  //     ))
+  //   }
+    
+  //   let request = {
+  //     location: env.userLoc,
+  //     radius: '2000',
+  //     type: ['restaurant']
+  //   };
+  //   let service = new google.maps.places.PlacesService(env.map);
+  
+  //   function nearbySearchSync(query) {
+  //     return new Promise((resolve, reject) => {
+  //       service.nearbySearch(query,(successResponse) => {
+  //         resolve(successResponse);
+  //       });
+  //     });
+  //   }
+  
+  //   function callback(results, status) {}
+  
+  //   try {
+  //     let results = await nearbySearchSync(request, callback);
+  //     for (let i = 0; i < results.length; i++) {
+  //       let picture = null
+  //       try {
+  //         picture = results[i].photos[0].getUrl()
+  //       } catch(error){
+  //         picture = null
+  //       }
+  //       //pushing a new instance of the class restaurant
+  //       //(so a new restaurant) into the list of restaurants 
+  //       //that we have
+  //       restaurants.push(new Restaurant(
+  //         results[i].name,
+  //         [{
+  //           rating: results[i].rating, // average rating supplied by google
+  //           comment: "" //no comment supplied by google
+  //         }],
+  //         {
+  //           lat: results[i].geometry.location.lat(),
+  //           lng: results[i].geometry.location.lng()
+  //         },
+  //         picture //last but no least, the image displayed in our popup
+  //       ))
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   return restaurants
+  // }
