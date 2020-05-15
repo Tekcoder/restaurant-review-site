@@ -154,8 +154,8 @@ function initMap(callback) {
         center: { lat: pos.lat, lng: pos.lng },
         zoom: 16,
       });
-      
-      addMarker(map, "Your Location", pos.lat, pos.lng);
+      var userIcon = "https://maps.google.com/mapfiles/kml/pushpin/ltblu-pushpin.png";
+      addMarker(map, "User's Location", pos.lat, pos.lng, userIcon);
       callback(map);
       map.addListener("click", function (e) {
         //Save location for later
@@ -171,15 +171,14 @@ function initMap(callback) {
   }
 }
 
-function addMarker(map, name, latitude, longitude, restaurantsIcon) {
+function addMarker(map, name, latitude, longitude, icon) {
   // The location of User
-  var restaurantsIcon = "https://maps.google.com/mapfiles/kml/pushpin/";
 
   var restaurantLocation = { lat: latitude, lng: longitude };
   var marker = new google.maps.Marker({
     position: restaurantLocation,
     map: map,
-    icon: restaurantsIcon + "ltblu-pushpin.png",
+    icon: icon,
     animation: google.maps.Animation.DROP
   });
 
@@ -208,12 +207,14 @@ function addRestaurant() {
     ],
   };
   //2) Save restaurant in JSON
+  var restaurantIcon = "http://maps.google.com/mapfiles/kml/paddle/ltblu-blank.png";
   restaurantList.push(restaurantObject);
   addMarker(
     map,
     restaurantObject.restaurantName,
     clickedPosition.lat,
-    clickedPosition.long
+    clickedPosition.long,
+    restaurantIcon
   );
   card(restaurantObject, restaurantList.length);
   //3) Close modal
@@ -305,7 +306,7 @@ function callStreet(lat, long) {
 
   function autocompleteRestaurant() {
 
-    var placesRestaurant =  'http://maps.google.com/mapfiles/kml/pal2/icon43.png'
+    var placesRestaurant =  'http://maps.google.com/mapfiles/kml/pal2/icon43.png' 
 
     let restaurantSearch =  $("#search-location").val()
 
