@@ -304,7 +304,7 @@ function callStreet(lat, long) {
         
   });
 
-  function autocompleteRestaurant() {
+  function placesApiRestaurant() {
 
     var placesRestaurant =  'http://maps.google.com/mapfiles/kml/pal2/icon43.png' 
 
