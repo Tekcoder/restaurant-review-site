@@ -1,3 +1,10 @@
+html, body{
+	width: 100%;
+	height: 100%;
+  margin: 0;
+  text-align: center;
+}
+
 .breadth {
   max-width: 24rem;
 }
@@ -5,7 +12,6 @@
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
 #map {
-  /*float: left;*/
   height: 70%;
   width: 70%;
   background-color: grey;
@@ -15,6 +21,10 @@
 #restaurant-row {
   margin: 2rem 0 0rem 0rem;
   position: relative;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  right: 0;
 }
 
 .site-background {
@@ -28,14 +38,6 @@
   width: 480px;
 }
 
-/* Optional: Makes the sample page fill the window. */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 #radius {
   /* margin-top: 2.5rem; */
   max-width: 100%;
@@ -44,4 +46,3 @@ body {
 #close-button:hover {
   background: red;
 }
-

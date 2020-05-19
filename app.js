@@ -206,6 +206,12 @@ function addRestaurant() {
       },
     ],
   };
+
+    if (restaurantObject.restaurantName === "") {
+      alert('Kindly add the restaurant name')
+      // return false;
+    }
+    
   //2) Save restaurant in JSON
   var restaurantIcon = "http://maps.google.com/mapfiles/kml/paddle/ltblu-blank.png";
   restaurantList.push(restaurantObject);
@@ -321,7 +327,6 @@ function callStreet(lat, long) {
       type: ['restaurant'],
       query: restaurantSearch
     };
-    //console.log(request)
     service = new google.maps.places.PlacesService(map);
   service.textSearch(request, callback);
   }
@@ -350,3 +355,9 @@ function callStreet(lat, long) {
     }
   }
   }
+
+  // function autocomplete() {
+  //   let locationSearch =  $("#search-location").val()
+
+  //   let autocomplete = new google.maps.places.Autocomplete(locationSearch)
+  // }
