@@ -209,8 +209,18 @@ function addRestaurant() {
 
     if (restaurantObject.restaurantName === "") {
       alert('Kindly add the restaurant name')
-      // return false;
+      return false;
+    } else if (restaurantObject.address === "") {
+      alert('Kindly add the restaurant address')
+      return false;
+    } else if (restaurantObject.ratings[0].stars === null) {
+      alert('Kindly choose a star rating from the dropdown')
+      return false;
+    } else if (restaurantObject.ratings[0].comment === "") {
+      alert('Kindly leave a comment below')
+      return false;
     }
+    
     
   //2) Save restaurant in JSON
   var restaurantIcon = "http://maps.google.com/mapfiles/kml/paddle/ltblu-blank.png";
