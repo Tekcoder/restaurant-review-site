@@ -14,7 +14,8 @@ let restaurantList = [
         comment: "My favorite restaurant!",
       },
     ],
-    show: true
+    show: true,
+    image: "/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg"
   },
   {
     restaurantName: "Bar beach",
@@ -31,7 +32,8 @@ let restaurantList = [
         comment: "My favorite restaurant!",
       },
     ],
-    show: true
+    show: true,
+    image: "/images/tim-mossholder-FH3nWjvia-U-unsplash.jpg"
   },
   {
     restaurantName: "Babalou",
@@ -48,7 +50,8 @@ let restaurantList = [
         comment: "Meh, it was fine.",
       },
     ],
-    show: true
+    show: true,
+    image: "/images/clem-onojeghuo-P7-_EB3gQuA-unsplash.jpg"
   },
   {
     restaurantName: "Dominos",
@@ -65,7 +68,8 @@ let restaurantList = [
         comment: "Will come again",
       },
     ],
-    show: true
+    show: true,
+    image: "/images/joseph-gonzalez-fdlZBWIP0aM-unsplash.jpg"
   },
 ];
 
@@ -108,7 +112,7 @@ function card(restaurant, id) {
     </div>
   </div>
   </div>
-  <div class="col-md-4" id="image_div"><img src='/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg' id="radius" class="card-img"alt="Restaurant image"/></div>`);
+  <div class="col-md-4" id="image_div"><img src='${restaurant.image}' id='radius' class='card-img' alt='Restaurant image'/></div>`);
 
   $("#rating_" + id).rating({});
 }
@@ -357,14 +361,9 @@ function callStreet(lat, long) {
               stars: place.rating,
             }
           ],
-          show: true
+          show: true,
+          image: place.photos[0].getUrl() 
         };
-        //restaurant photo - Places API
-        // let photos = place.photos;
-        // let photo;
-        // photo = photos[0].getUrl()
-        // $('#image_div').empty().append(`<img src="${photo}">`);
-    
     
         restaurantList.push(restaurantResult);
         addMarker(map, place.name, place.geometry.location.lat(), place.geometry.location.lng(), placesRestaurant);
