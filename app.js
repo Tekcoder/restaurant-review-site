@@ -3,7 +3,7 @@ let restaurantList = [
     restaurantName: "Bronco",
     address: "39 Rue des Petites Écuries, 75010 Paris",
     lat: 6.5489900,
-    long: 3.3688805123456,
+    long: 3.36158059999967897,
     ratings: [
       {
         stars: 5,
@@ -97,7 +97,7 @@ function card(restaurant, id) {
   if (restaurant.show == true) {
   let average = restaurantAverage(restaurant.ratings);
 
-  $("#restaurant-card").append(`
+  $("#restaurant-card").append(` 
   <div class="col-md-8">
     <div class="card border-info mb-2 breadth">
       <div class="card-header text text-info" id="name_${id}"><a href="#" onclick="commentModal(${id})">${restaurant.restaurantName}</a></div>
@@ -108,7 +108,7 @@ function card(restaurant, id) {
     </div>
   </div>
   </div>
-  <div class="col-md-4"><img src="/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg" id="radius" class="card-img"alt="Restaurant image"/></div>`);
+  <div class="col-md-4" id="image_div"><img src='/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg' id="radius" class="card-img"alt="Restaurant image"/></div>`);
 
   $("#rating_" + id).rating({});
 }
@@ -255,7 +255,7 @@ function cleanCommentModal() {
 }
 //This function displays the modal with the existing reviews
 function commentModal(id) {
-  //Save restaurant ID for later
+  //Save restaurant ID for later 
   currentRestaurantID = id;
   let individualAverage = restaurantAverage(restaurantList[currentRestaurantID].ratings);
   let comments = getComments(restaurantList[currentRestaurantID].ratings);
@@ -284,7 +284,7 @@ function addNewReview() {
     stars: parseInt($("#add-new-star").val()),
     comment: $("#add-new-comment").val(),
   });
-
+ 
   $("#addReviewsModal").modal("hide");
 }
 
@@ -350,6 +350,8 @@ function callStreet(lat, long) {
         var restaurantResult = {
           restaurantName: place.name,
           address: place.formatted_address,
+          lat: place.geometry.location.lat(),
+          long: place.geometry.location.lng(),
           ratings: [
             {
               stars: place.rating,
@@ -357,7 +359,13 @@ function callStreet(lat, long) {
           ],
           show: true
         };
-
+        //restaurant photo - Places API
+        // let photos = place.photos;
+        // let photo;
+        // photo = photos[0].getUrl()
+        // $('#image_div').empty().append(`<img src="${photo}">`);
+    
+    
         restaurantList.push(restaurantResult);
         addMarker(map, place.name, place.geometry.location.lat(), place.geometry.location.lng(), placesRestaurant);
         card(restaurantResult, restaurantList.length)
