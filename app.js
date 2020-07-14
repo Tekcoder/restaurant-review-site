@@ -5,14 +5,14 @@ let restaurantList = [
     lat: 6.5489900,
     long: 3.36158059999967897,
     ratings: [
-      {
-        stars: 5,
-        comment: "Great! But not many veggie options.",
-      },
-      {
-        stars: 5,
-        comment: "My favorite restaurant!",
-      },
+      // {
+      //   // stars: 0,
+      //   comment: "Great! But not many veggie options.",
+      // },
+      // {
+      //   // stars: 0,
+      //   comment: "My favorite restaurant!",
+      // },
     ],
     show: true,
     image: "/images/jonathan-borba-5E0d3lfoC1w-unsplash.jpg"
@@ -98,7 +98,7 @@ $(document).ready(function () {
 });
 
 function card(restaurant, id) {
-  if (restaurant.show == true) {
+  if (restaurant.show == true) { 
   let average = restaurantAverage(restaurant.ratings);
 
   $("#restaurant-card").append(` 
@@ -209,6 +209,8 @@ function addRestaurant() {
         comment: $("#add-restaurant-comments").val(),
       },
     ],
+    show: true,
+    image: "/images/clem-onojeghuo-P7-_EB3gQuA-unsplash.jpg",
   };
 
     if (restaurantObject.restaurantName === "") {
@@ -251,7 +253,7 @@ function cleanRestaurantModal() {
   clickedPosition.long = 0;
   currentRestaurantID = 0;
 }
-
+  
 //Cleans addNewReview modal so that it always shows empty
 function cleanCommentModal() {
   $("#display-stars").val("");
@@ -279,6 +281,15 @@ function addNewReview() {
       { stars: $("#add-new-star").val(), comment: $("#add-new-comment").val() },
     ],
   };
+//Validation
+  if (newRestaurantReview.ratings[0].stars === null) {
+    alert('Kindly choose a star rating from the dropdown')
+    return false;
+  } else if (newRestaurantReview.ratings[0].comment === "") {
+    alert('Kindly leave a comment below')
+    return false;
+  }
+
   //Update the stars and comments for the restaurant
   restaurantList.push(newRestaurantReview);
   //3) Close modal
@@ -290,6 +301,9 @@ function addNewReview() {
   });
  
   $("#addReviewsModal").modal("hide");
+
+  let newRating = restaurantAverage(restaurantList[currentRestaurantID].ratings)    
+  $("#rating_" + currentRestaurantID).rating('update', newRating)
 }
 
 function callStreet(lat, long) {
@@ -321,7 +335,7 @@ function callStreet(lat, long) {
       for (let i = 0; i < restaurantList.length; i++) {
         card(restaurantList[i], i)
        }
-        
+         
   });
 
   function placesApiRestaurant() {
@@ -340,9 +354,12 @@ function callStreet(lat, long) {
       radius: '500',
       type: ['restaurant'],
       query: restaurantSearch
+      // placeId: 'EiNJa2FsZSBTdCwgUGFwYSBBamFvLCBMYWdvcywgTmlnZXJpYSIuKiwKFAoSCcVFBwTajTsQETBA7-t6I0pQEhQKEgmFOFg82Y07EBEZ4OaMGAFVGA',
+      // fields: ['name', 'formatted_address','geometry','rating', 'reviews']
     };
     service = new google.maps.places.PlacesService(map);
   service.textSearch(request, callback);
+  // service.getDetails(request, callback);
   }
   )
 
@@ -359,10 +376,11 @@ function callStreet(lat, long) {
           ratings: [
             {
               stars: place.rating,
+              // comment: place.reviews[i].text 
             }
           ],
-          show: true,
-          image: place.photos[0].getUrl() 
+          show: true, 
+          image: place.photos[0].getUrl()
         };
     
         restaurantList.push(restaurantResult);
@@ -372,9 +390,3 @@ function callStreet(lat, long) {
     }
   }
   }
-
-  // function autocomplete() {
-  //   let locationSearch =  $("#search-location").val()
-
-  //   let autocomplete = new google.maps.places.Autocomplete(locationSearch)
-  // }
