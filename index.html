@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- External Dependencies -->
+  <!-- CSS -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <!-- Star Rating -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+  <!-- End CSS -->
+
+  <!-- Javascript -->
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- Star Rating -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/star-rating.js"
+    type="text/javascript"></script>
+  <!-- Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <!-- End JS-->
+  <!-- End External Dependencies -->
+
+  <!-- Page CSS-->
+  <link rel="stylesheet" href="/css/style.css" />
+  <title>Restaurants Review Site</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row bg-info">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <h2 class="text-light">Roheem's Restaurant Review Site</h2>
+      </div> 
+      <div class="col-3"></div>
+    </div>
+  </div>
+  <div class="container-fluid site-background">
+    <div class="row">
+      <div class="col-12 bg-dark">
+        <label class="text-light bg-dark" for="search-location">Search for Restaurants:</label>
+        <input class="text-dark bg-light" type="search" name="search-location" id="search-location" placeholder="Enter a Location">
+        <input class="text-dark bg-light" type="submit" name="submit" value="search" onclick="placesApiRestaurant()">
+      </div> 
+      <div class="col-sm-8 col-xs-6">
+        <div id="map"></div> 
+      </div>
+      <div class="col-sm-4 col-xs-6">
+        <div class="row">
+          <div class="col-12 bg-dark">
+            <label class="text-light bg-dark" for="ratings-filter">Filter by ratings:</label>
+<select id="ratings-filter" name="ratings-filter" >
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+</select></div>
+        </div>
+        <div class="row p-1 mb-1 ml-0 bg-info text-white breadth overflow-auto" id="restaurant-row">
+          <div class="row" id="restaurant-card"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="addRestaurantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-info" id="exampleModalLabel">Add New Restaurant</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form> 
+              <div class="form-group">
+                <label for="add-restaurant-name" class="col-form-label text-info">Name:</label>
+                <input type="text" class="form-control required" name="add-restaurant-name" id="add-restaurant-name" required>
+              </div>
+              <div class="form-group">
+                <label for="add-restaurant-address" class="col-form-label text-info">Address:</label>
+                <textarea class="form-control" name="add-restaurant-address" id="add-restaurant-address" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="add-restaurant-star" class="text-info">Star:</label>
+                <select class="form-control" id="add-restaurant-star" name="star">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                <br>
+              </div>
+              <div class="form-group">
+                <label for="add-restaurant-comments" class="col-form-label text-info">Comments:</label>
+                <textarea class="form-control" id="add-restaurant-comments" required></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-info" onclick="addRestaurant()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="addReviewsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-info" id="exampleModalLabel">Existing Reviews</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+            <label for="display-stars">Stars:
+            <div id="display-stars" class="rating" data-readonly="true"></div>
+            <label for="display-comments">Comments:</label>
+            <div id="display-comments"></div>
+            <hr>
+            <h5 class="text-info">Add New Review</h5>
+            <form> 
+              <div class="form-group">
+                <label for="add-new-star">Star:</label>
+                <select class="form-control" id="add-new-star" name="star">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option> 
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                <br>
+              </div>
+              <div class="form-group">
+                <label for="add-new-comment" class="col-form-label">Comments:</label>
+                <textarea class="form-control" id="add-new-comment"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="close-button" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-info" onclick="addNewReview()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="streetViewModal" tabindex="-1" role="dialog" aria-labelledby="streetViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"> 
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="streetViewModalLabel">Restaurant Street View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="street-view"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="street-close-button" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8t7jwOWRpSa83eENn9Th6qPuK96uYOyo&callback=initMap&libraries=places"></script>
+  <!-- Page JS -->
+  <script src="./js/app.js"></script>
+  <script src="./js/map.js"></script>
+  <script src="./js/marker.js"></script>
+  <script src="./js/modal.js"></script>
+  <script src="./js/places-api.js"></script>
+  <script src="./js/restaurant.js"></script>
+  <script src="/js/review.js"></script>
+  <script src="./js/street-view.js"></script>
+  <script src="./js/card.js"></script>
+</body>
+</html>

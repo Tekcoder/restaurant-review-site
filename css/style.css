@@ -1,0 +1,48 @@
+html, body{
+	width: 100%;
+	height: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+.breadth {
+  max-width: 24rem;
+}
+
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+  height: 70%;
+  width: 70%;
+  background-color: grey;
+  margin: 4rem 1rem 4rem 5rem;
+}
+
+#restaurant-row {
+  margin: 2rem 0 0rem 0rem;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  right: 0;
+}
+
+.site-background {
+  background-image: url(../images/dan-gold-E6HjQaB7UEA-unsplash.jpg);
+  width: 100%;
+  background-repeat:no-repeat;
+  background-size:100%;
+}
+#street-view {
+  height: 780px;
+  width: 480px;
+}
+
+#radius {
+  /* margin-top: 2.5rem; */
+  max-width: 100%;
+}
+
+#close-button:hover {
+  background: red;
+}
